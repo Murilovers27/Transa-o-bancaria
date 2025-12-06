@@ -1,0 +1,64 @@
+<div class="container mt-5">
+    <h1 class="mb-4">💰 Gestor Financeiro Pessoal</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <app-cadastro-movimentacao 
+                (movimentacaoCriada)="carregarMovimentacoes()">
+            </app-cadastro-movimentacao>
+        </div>
+
+        <div class="col-md-8">
+            <div class="saldo-card p-4 mb-4 text-center rounded shadow-sm" style="background-color: #e9ecef;">
+                <h3 class="mb-3">Saldo Total Atual:</h3>
+                <p class="h1" [ngClass]="{'text-success': saldoTotal >= 0, 'text-danger': saldoTotal < 0}">
+                    R$ {{ saldoTotal | number : '1.2-2' }}
+                </p>
+                <div class="row mt-3">
+                    <div class="col-6 text-success fw-bold">
+                        Receitas: R$ {{ totalReceitas | number : '1.2-2' }}
+                    </div>
+                    <div class="col-6 text-danger fw-bold">
+                        Despesas: R$ {{ totalDespesas | number : '1.2-2' }}
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="mb-3">Histórico de Movimentações ({{ movimentacoes.length }})</h4>
+            
+            <div *ngIf="movimentacoes.length === 0" class="alert alert-info text-center">
+                Nenhuma movimentação registrada.
+            </div>
+
+            <table *ngIf="movimentacoes.length > 0" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Data</th>
+                        <th style="width: 35%;">Descrição</th>
+                        <th style="width: 15%;">Categoria</th>
+                        <th class="text-end" style="width: 20%;">Valor</th>
+                        <th style="width: 15%;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let mov of movimentacoes" [ngClass]="{'table-success': mov.tipo === 'receita', 'table-danger': mov.tipo === 'despesa'}">
+                        <td>{{ mov.data | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ mov.descricao }}</td>
+                        <td>
+                            <span class="badge bg-secondary">{{ mov.categoria.nome }}</span>
+                        </td>
+                        <td class="text-end fw-bold">
+                            {{ mov.tipo === 'receita' ? '+' : '-' }} R$ {{ mov.valor | number : '1.2-2' }}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-danger" (click)="deletarMovimentacao(mov._id)">
+                                Excluir
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,5 @@
 const Movimentacao = require('../models/movimentacao');
 
-// @desc    Obter todas as movimentações
-// @route   GET /api/movimentacoes
-// @access  Public
 exports.getMovimentacoes = async (req, res, next) => {
   try {
     const movimentacoes = await Movimentacao.find().sort({ data: -1 }); // Ordena pela data mais recente
@@ -20,9 +17,7 @@ exports.getMovimentacoes = async (req, res, next) => {
   }
 };
 
-// @desc    Calcular o saldo total
-// @route   GET /api/movimentacoes/saldo
-// @access  Public
+
 exports.getSaldo = async (req, res, next) => {
   try {
     const movimentacoes = await Movimentacao.find();
@@ -45,20 +40,16 @@ exports.getSaldo = async (req, res, next) => {
 };
 
 
-// @desc    Adicionar nova movimentação
-// @route   POST /api/movimentacoes
-// @access  Public
 exports.addMovimentacao = async (req, res, next) => {
   try {
     const movimentacao = await Movimentacao.create(req.body);
 
-    // Retorna 201 Created com a nova movimentação
     return res.status(201).json({
       success: true,
       data: movimentacao,
     });
   } catch (error) {
-    // Tratamento de erros de validação (ex: campo requerido faltando)
+    
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(val => val.message);
 
@@ -75,9 +66,7 @@ exports.addMovimentacao = async (req, res, next) => {
   }
 };
 
-// @desc    Deletar movimentação
-// @route   DELETE /api/movimentacoes/:id
-// @access  Public
+
 exports.deleteMovimentacao = async (req, res, next) => {
   try {
     const movimentacao = await Movimentacao.findById(req.params.id);
@@ -91,7 +80,7 @@ exports.deleteMovimentacao = async (req, res, next) => {
 
     await Movimentacao.deleteOne({ _id: req.params.id });
 
-    // Retorna 204 No Content (sucesso sem corpo de resposta)
+   
     return res.status(204).json({
       success: true,
       data: {},

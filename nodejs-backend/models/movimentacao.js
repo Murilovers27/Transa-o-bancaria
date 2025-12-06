@@ -4,7 +4,7 @@ const MovimentacaoSchema = mongoose.Schema(
   {
     descricao: {
       type: String,
-      trim: true, // Remove espaços em branco antes e depois
+      trim: true, 
       required: [true, 'Por favor, adicione uma descrição'],
     },
     valor: {
@@ -14,7 +14,7 @@ const MovimentacaoSchema = mongoose.Schema(
     },
     tipo: {
       type: String,
-      enum: ['receita', 'despesa'], // Garante que seja apenas um desses dois valores
+      enum: ['receita', 'despesa'], 
       required: [true, 'Por favor, especifique o tipo (receita ou despesa)'],
     },
     categoria: {
@@ -29,7 +29,7 @@ const MovimentacaoSchema = mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Adiciona 'createdAt' e 'updatedAt' automaticamente
+    timestamps: true, 
   }
 );
 

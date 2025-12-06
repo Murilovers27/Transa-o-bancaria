@@ -1,0 +1,58 @@
+<div class="card p-4 shadow-sm">
+    <h4 class="mb-4">Adicionar Nova Movimentação</h4>
+
+    <form [formGroup]="formularioMovimentacao" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <input type="text" id="descricao" formControlName="descricao" class="form-control" placeholder="Ex: Salário, Conta de Luz">
+            <div *ngIf="formularioMovimentacao.get('descricao')?.invalid && formularioMovimentacao.get('descricao')?.touched" class="text-danger small">
+                A descrição é obrigatória.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="valor" class="form-label">Valor (R$)</label>
+            <input type="number" id="valor" formControlName="valor" class="form-control" min="0.01" step="0.01">
+            <div *ngIf="formularioMovimentacao.get('valor')?.invalid && formularioMovimentacao.get('valor')?.touched" class="text-danger small">
+                O valor deve ser positivo e obrigatório.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="data" class="form-label">Data</label>
+            <input type="date" id="data" formControlName="data" class="form-control">
+            <div *ngIf="formularioMovimentacao.get('data')?.invalid && formularioMovimentacao.get('data')?.touched" class="text-danger small">
+                A data é obrigatória.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label d-block">Tipo</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="receita" value="receita" formControlName="tipo">
+                <label class="form-check-label text-success" for="receita">Receita</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="despesa" value="despesa" formControlName="tipo">
+                <label class="form-check-label text-danger" for="despesa">Despesa</label>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="categoriaId" class="form-label">Categoria</label>
+            <select id="categoriaId" formControlName="categoriaId" class="form-select">
+                <option *ngFor="let cat of categorias" [value]="cat._id">
+                    {{ cat.nome }}
+                </option>
+            </select>
+            <div *ngIf="formularioMovimentacao.get('categoriaId')?.invalid && formularioMovimentacao.get('categoriaId')?.touched" class="text-danger small">
+                A categoria é obrigatória.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100" [disabled]="formularioMovimentacao.invalid">
+            Registrar Movimentação
+        </button>
+    </form>
+</div>
